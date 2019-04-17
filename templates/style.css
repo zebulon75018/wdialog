@@ -1,0 +1,106 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: royalblue;
+}
+
+.loader-container {
+  position: relative;
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  margin-top: 30px;
+}
+
+.s1 {
+  position: absolute;
+  border-top: 1px solid royalblue;
+  border-bottom: 1px solid royalblue;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  border-radius: 50%;
+  left: 10px;
+  top: 10px;
+  width: 70px;
+  height: 70px;
+  animation: cwSpin 1s infinite linear;
+  -moz-animation: cwSpin 1s infinite linear;
+  -ms-animation: cwSpin 1s infinite linear;
+  -webkit-animation: cwSpin 1s infinite linear;
+}
+
+.s2 {
+  position: absolute;
+  border-top: 1px solid royalblue;
+  border-bottom: 1px solid royalblue;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  border-radius: 50%;
+  left: 20px;
+  top: 20px;
+  width: 50px;
+  height: 50px;
+  animation: ccwSpin 1s infinite linear;
+  -moz-animation: ccwSpin 1s infinite linear;
+  -ms-animation: ccwSpin 1s infinite linear;
+  -webkit-animation: ccwSpin 1s infinite linear;
+}
+
+.s3 {
+  position: absolute;
+  border-top: 1px solid royalblue;
+  border-bottom: 1px solid royalblue;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
+  border-radius: 50%;
+  left: 30px;
+  top: 30px;
+  width: 30px;
+  height: 30px;
+  animation: cwSpin 1s infinite linear;
+  -moz-animation: cwSpin 1s infinite linear;
+  -ms-animation: cwSpin 1s infinite linear;
+  -webkit-animation: cwSpin 1s infinite linear;
+}
+
+/* Animation */
+@keyframes cwSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes cwSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-ms-keyframes cwSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes cwSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ccwSpin {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@-moz-keyframes ccwSpin {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@-ms-keyframes ccwSpin {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@-webkit-keyframes ccwSpin {
+  to {
+    transform: rotate(-360deg);
+  }
+}
