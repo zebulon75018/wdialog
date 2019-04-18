@@ -5,18 +5,31 @@ var net = require('net');
 var app       = express();
 const port = 3000;
 
+/*
+calendar, checklist, dselect, editbox, form, fselect, gauge, infobox, inputbox, inputmenu, menu, mixedform, mixedgauge, msgbox (message), passwordbox, passwordform, pause, progressbox, radiolist, tailbox, tailboxbg, textbox, timebox, and yesno (yes/no).
+*/
 class argParser {
     constructor() {
+
+        this.optiondialog = [ 'calendar', 'checklist', 'dselect', 'editbox', 'form', 'fselect', 'gauge', 'infobox', 'inputbox', 'inputmenu', 'menu', 'mixedform', 'mixedgauge', 'msgbox' , 'passwordbox', 'passwordform', 'pause', 'progressbox', 'radiolist', 'tailbox', 'tailboxbg', 'textbox', 'timebox', 'yesno']
+
         this._template= "yesno.html";
     }
 
     parse( args ) {
         for (var i in args) {
-            /*if (args[i].startwith("--")) {
-
-            }*/           
+            console.log(typeof(args[i]))
+            if (args[i][0]=='-') {
+                for (var j in this.optiondialog)
+                {
+                    if (args[i].replace("--","") ==  this.optiondialog[j])
+                    {
+                        console.log("FOUND "+this.optiondialog[j])
+                        break;
+                    }
+                }
+            }           
         }
- 
         this._template= args[2].replace('--','') + ".html";
     }
 
