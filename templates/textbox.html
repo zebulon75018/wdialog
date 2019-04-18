@@ -1,0 +1,15 @@
+
+{% extends "layout.html" %}
+{% block content %}
+<script>
+$(document).ready(function(){
+    bootbox.prompt({
+    title: "This is a prompt with a textarea!",
+    inputType: 'textarea',
+    callback: function (result) {
+        console.log(result);
+    }
+    });
+});
+</script>
+{% endblock %}

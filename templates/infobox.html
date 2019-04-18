@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block content %}
+<script>
+  $(document).ready(function(){
+    bootbox.alert("This is the default confirm!", function(result){
+      window.location.href = "/reply?result=" + result; 
+     });
+  });
+</script>
+{% endblock %}
