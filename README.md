@@ -1,4 +1,7 @@
 # wdialog
 wdialog is the web gui of dialog or xdialog ...
 
-[screenshot](screen.jpg)
+![screenshot](yesno.jpg)
+
+
+![curse screenshot](curseyesno.jpg)
