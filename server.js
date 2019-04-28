@@ -5,36 +5,89 @@ var net = require('net');
 var app       = express();
 const port = 3000;
 
+
+
 /*
 calendar, checklist, dselect, editbox, form, fselect, gauge, infobox, inputbox, inputmenu, menu, mixedform, mixedgauge, msgbox (message), passwordbox, passwordform, pause, progressbox, radiolist, tailbox, tailboxbg, textbox, timebox, and yesno (yes/no).
 */
 class argParser {
     constructor() {
-
-        this.optiondialog = [ 'calendar', 'checklist', 'dselect', 'editbox', 'form', 'fselect', 'gauge', 'infobox', 'inputbox', 'inputmenu', 'menu', 'mixedform', 'mixedgauge', 'msgbox' , 'passwordbox', 'passwordform', 'pause', 'progressbox', 'radiolist', 'tailbox', 'tailboxbg', 'textbox', 'timebox', 'yesno']
-
+        this.title ="";
+        this.backtitle="";
+        this._content = "";
+        this.optiondialog = [ { 'name'  :'calendar', 'func' : null}, 
+        { 'name'  :'checklist', 'func' : null},
+		{ 'name'  :		 'dselect', 'func' : null},
+		{ 'name'  :		 'editbox',  'func' : null},
+		{ 'name'  :		 'form',  'func' : null},
+		{ 'name'  :		'fselect', 'func' : null},
+		{ 'name'  :		 'gauge', 'func' : null},
+        { 'name'  :		 'infobox',  'func' : function(self,i) {
+            self._content = self.args[i+1];
+            self._template= self.args[i].replace('--','') + ".html";
+            } 
+        },
+		{ 'name'  :		'inputbox', 'func' : null},
+		{ 'name'  :		 'inputmenu', 'func' : null},
+		{ 'name'  :		 'menu', 'func' : null},
+		{ 'name'  :		 'mixedform', 'func' : null},
+		{ 'name'  :		 'mixedgauge', 'func' : null},
+        { 'name'  :		 'msgbox' , 'func' : function(self,i) {
+            self._content = self.args[i+1];
+            self._template= self.args[i].replace('--','') + ".html";
+            }
+        },
+		{ 'name'  :		 'passwordbox', 'func' : null},
+		{ 'name'  :		 'passwordform', 'func' : null},
+		{ 'name'  :		  'pause', 'func' : null},
+		{ 'name'  :		 'progressbox', 'func' : null},
+		{ 'name'  :		 'radiolist', 'func' : null},
+		{ 'name'  :		 'tailbox', 'func' : null},
+		{ 'name'  :		 'tailboxbg', 'func' : null},
+		{ 'name'  :		 'textbox', 'func' : null},
+		{ 'name'  :		 'timebox', 'func' : null},
+		{ 'name'  :		 'yesno', 'func' : function(self,i) {
+                self._content = self.args[i+1];
+                self._template= self.args[i].replace('--','') + ".html";
+            }
+        },
+        { 'name' : 'title' , 'func' : function(self,i) {
+            self.title =  self.args[i+1];
+            },
+        }, 
+        { 'name' : 'backtitle' , 'func' : function(self,i) {
+            self.backtitle =  self.args[i+1];
+            }
+        }   
+         
+        ]
         this._template= "yesno.html";
+	this._content = "";
     }
 
+
     parse( args ) {
+        this.args = args;
         for (var i in args) {
+            console.log(args[i])
             console.log(typeof(args[i]))
             if (args[i][0]=='-') {
                 for (var j in this.optiondialog)
                 {
-                    if (args[i].replace("--","") ==  this.optiondialog[j])
+                    if (args[i].replace("--","") ==  this.optiondialog[j].name)
                     {
-                        console.log("FOUND "+this.optiondialog[j])
-                        break;
+                        this.optiondialog[j].func(this,parseInt(i));
                     }
                 }
             }           
         }
-        this._template= args[2].replace('--','') + ".html";
     }
 
     template() {
         return this._template;
+    }
+    content() {
+        return this._content;
     }
 
 }
@@ -70,7 +123,9 @@ nunjucks.configure('templates', {
 
 app.get('/', function(req, res) {
   res.render(argparse.template(), {
-    title : 'My First Nunjucks Page',
+    title : argparse.title,
+    backtitle : argparse.backtitle,
+    content : argparse.content(),
     items : [
       { name : 'item #1' },
       { name : 'item #2' },
