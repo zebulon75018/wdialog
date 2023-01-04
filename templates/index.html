@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <title>Spinners (loading)</title>
   
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
   
   
   <style>
@@ -127,6 +129,15 @@
   <div class="s3"></div>
 </div>
   
+		<script>
+$(document).ready(function() {
+  setInterval(function() {
+        $('<form action="/" method="GET"/>')
+        .appendTo($(document.body))
+        .submit();
+  }, 3000);
+});
+		</script>
   
 
 </body>

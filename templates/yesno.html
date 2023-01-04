@@ -4,14 +4,8 @@
 <script>
 $(document).ready(function(){
 
-    bootbox.confirm("This is the default confirm!", function(result){
-
-      window.location.href = "/reply?result=" + result;
-      /*
-      $.get("reply?result="+result, function(data, status){
-      alert("Data: " + data + "\nStatus: " + status);
-      });
-      */ 
+    bootbox.confirm("{{text}}", function(result){
+		    sendresult(result);
      });
 
 });
