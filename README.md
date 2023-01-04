@@ -10,7 +10,7 @@ wdialog version:
 
 ![screenshot](yesno.jpg)
 
+[![New feature ](https://img.youtube.com/vi/AoQn8MWS_40/0.jpg)](https://youtu.be/AoQn8MWS_40)
 
-[[!video example](https://yt-embed.herokuapp.com/embed?v=AoQn8MWS_40)](https://youtu.be/AoQn8MWS_40)
 
 
