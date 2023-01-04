@@ -11,6 +11,6 @@ wdialog version:
 ![screenshot](yesno.jpg)
 
 
-[!video example](https://youtu.be/AoQn8MWS_40)
+[[!video example](https://youtu.be/AoQn8MWS_40)]
 
 
