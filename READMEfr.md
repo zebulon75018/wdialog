@@ -306,9 +306,7 @@ Les contributions sont les bienvenues ! N'hésitez pas à :
 - Proposer de nouvelles fonctionnalités
 - Améliorer la documentation
 
-## 📜 Licence
 
-Ce projet est libre d'utilisation pour vos projets personnels et professionnels.
 
 ## 🎉 Crédits
 
