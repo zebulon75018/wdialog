@@ -3,6 +3,9 @@
 Modern web interface to display dialog boxes from bash scripts, compatible with the `dialog` command specifications.  
 This project is a WIP.
 
+
+
+
 ## 🎯 Features
 
 - ✅ Compatible with the `dialog` command syntax
@@ -87,9 +90,9 @@ In a first terminal:
 ```
 The server starts on:
 
-*   Web interface: [http://localhost:5000](http://localhost:5000)
+*   Web interface: [http://localhost:5900](http://localhost:5900)
     
-*   Socket server: localhost:5001
+*   Socket server: localhost:5901
     
 
 ### 2\. Open the web interface
