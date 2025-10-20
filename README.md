@@ -1,321 +1,213 @@
-# Dialog Web Interface
+1.  **Install Python dependencies:**
+    
 
-Interface web moderne pour afficher des boîtes de dialogue depuis des scripts bash, compatible avec les spécifications de la commande `dialog`.
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   pip install flask flask-socketio python-socketio   `
 
-## 🎯 Fonctionnalités
+1.  **Create the folders:**
+    
 
-- ✅ Compatible avec la syntaxe de la commande `dialog`
-- 🎨 Interface web moderne et responsive avec Bootstrap
-- 🔌 Communication en temps réel via WebSocket
-- 📱 Design moderne et animé
-- 🚀 Facile à intégrer dans vos scripts bash existants
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   mkdir templates   `
 
-## 📋 Types de widgets supportés
+1.  **Place the files:**
+    
 
-- `--yesno` : Boîte de dialogue Oui/Non
-- `--msgbox` : Boîte de message
-- `--inputbox` : Saisie de texte
-- `--passwordbox` : Saisie de mot de passe
-- `--textbox` : Affichage de fichier texte
-- `--menu` : Menu de sélection
-- `--checklist` : Liste à cocher (sélection multiple)
-- `--radiolist` : Liste radio (sélection unique)
-- `--gauge` : Barre de progression
-- `--infobox` : Information temporaire
-- `--calendar` : Sélection de date
-- `--timebox` : Sélection d'heure
-- `--fselect` : **[NOUVEAU]** Sélection de fichier/dossier
-- `--inputmenu` : **[NOUVEAU]** Menu avec capacité de renommage
-- `--mixedform` : **[NOUVEAU]** Formulaire avec champs mixtes (texte/password/readonly)
-- `--mixedgauge` : **[NOUVEAU]** Barre de progression avec liste de statuts
+*   dialog\_server.py: The main Flask server
+    
+*   wdialog.py: The client script (make it executable)
+    
+*   templates/dialog\_interface.html: The HTML template
+    
+*   example\_usage.sh: Usage example (optional)
+    
 
-## 🛠️ Installation
+1.  **Make wdialog.py executable:**
+    
 
-### Prérequis
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   chmod +x wdialog.py   `
 
-- Python 3.7+
-- pip (gestionnaire de paquets Python)
+🚀 Usage
+--------
 
-### Étapes d'installation
+### 1\. Start the server
 
-1. **Cloner ou créer la structure du projet :**
+In a first terminal:
 
-```bash
-mkdir dialog-web
-cd dialog-web
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python3 dialog_server.py   `
 
-2. **Installer les dépendances Python :**
+The server starts on:
 
-```bash
-pip install flask flask-socketio python-socketio
-```
+*   Web interface: [http://localhost:5000](http://localhost:5000)
+    
+*   Socket server: localhost:5001
+    
 
-3. **Créer la structure des dossiers :**
+### 2\. Open the web interface
 
-```bash
-mkdir templates
-```
+Open your browser and go to: [**http://localhost:5000**](http://localhost:5000)
 
-4. **Placer les fichiers :**
+You’ll see the waiting screen indicating the interface is ready to receive requests.
 
-- `dialog_server.py` : Le serveur Flask principal
-- `wdialog.py` : Le script client (à rendre exécutable)
-- `templates/dialog_interface.html` : Le template HTML
-- `example_usage.sh` : Exemple d'utilisation (optionnel)
+### 3\. Use wdialog.py in your bash scripts
 
-5. **Rendre wdialog.py exécutable :**
+In a second terminal, you can now use wdialog.py just like you would use dialog:
 
-```bash
-chmod +x wdialog.py
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   # Simple example  python3 wdialog.py --title "Test" --yesno "Do you want to continue?" 10 50   `
 
-## 🚀 Utilisation
+Or in a bash script:
 
-### 1. Démarrer le serveur
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   #!/bin/bash  # Define the command  WDIALOG="python3 wdialog.py"  # Use like dialog  $WDIALOG --title "Confirmation" --yesno "Continue?" 10 50  if [ $? -eq 0 ]; then      echo "Yes selected"  else      echo "No selected"  fi  # Text input  name=$($WDIALOG --title "Name" --inputbox "Enter your name:" 10 50 2>&1)  echo "Name: $name"  # Menu  choice=$($WDIALOG --menu "Menu:" 15 50 3 \      "1" "Option 1" \      "2" "Option 2" \      "3" "Option 3" 2>&1)  echo "Choice: $choice"   `
 
-Dans un premier terminal :
+📖 Examples
+-----------
 
-```bash
-python3 dialog_server.py
-```
+### Yes/No box
 
-Le serveur démarre sur :
-- Interface web : http://localhost:5000
-- Socket serveur : localhost:5001
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python3 wdialog.py --title "Confirmation" --yesno "Do you want to continue?" 10 50   `
 
-### 2. Ouvrir l'interface web
+### Input box
 
-Ouvrez votre navigateur et allez à : **http://localhost:5000**
-
-Vous verrez l'écran d'attente qui indique que l'interface est prête à recevoir des requêtes.
-
-### 3. Utiliser wdialog.py dans vos scripts bash
-
-Dans un second terminal, vous pouvez maintenant utiliser `wdialog.py` comme vous utiliseriez `dialog` :
-
-```bash
-# Exemple simple
-python3 wdialog.py --title "Test" --yesno "Voulez-vous continuer ?" 10 50
-```
-
-Ou dans un script bash :
-
-```bash
-#!/bin/bash
-
-# Définir la commande
-WDIALOG="python3 wdialog.py"
-
-# Utiliser comme dialog
-$WDIALOG --title "Confirmation" --yesno "Continuer ?" 10 50
-if [ $? -eq 0 ]; then
-    echo "Oui sélectionné"
-else
-    echo "Non sélectionné"
-fi
-
-# Saisie de texte
-nom=$($WDIALOG --title "Nom" --inputbox "Entrez votre nom :" 10 50 2>&1)
-echo "Nom : $nom"
-
-# Menu
-choix=$($WDIALOG --menu "Menu :" 15 50 3 \
-    "1" "Option 1" \
-    "2" "Option 2" \
-    "3" "Option 3" 2>&1)
-echo "Choix : $choix"
-```
-
-## 📖 Exemples d'utilisation
-
-### Boîte Yes/No
-
-```bash
-python3 wdialog.py --title "Confirmation" --yesno "Voulez-vous continuer ?" 10 50
-```
-
-### Boîte de saisie
-
-```bash
-nom=$(python3 wdialog.py --title "Saisie" --inputbox "Entrez votre nom :" 10 50 2>&1)
-echo "Nom : $nom"
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   name=$(python3 wdialog.py --title "Input" --inputbox "Enter your name:" 10 50 2>&1)  echo "Name: $name"   `
 
 ### Menu
 
-```bash
-choix=$(python3 wdialog.py --title "Menu" --menu "Choisissez :" 15 50 3 \
-    "opt1" "Option 1" \
-    "opt2" "Option 2" \
-    "opt3" "Option 3" 2>&1)
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   choice=$(python3 wdialog.py --title "Menu" --menu "Choose:" 15 50 3 \      "opt1" "Option 1" \      "opt2" "Option 2" \      "opt3" "Option 3" 2>&1)   `
 
 ### Checklist
 
-```bash
-modules=$(python3 wdialog.py --checklist "Modules :" 15 60 3 \
-    "apache" "Serveur Apache" on \
-    "mysql" "Base de données" off \
-    "php" "PHP" on 2>&1)
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   modules=$(python3 wdialog.py --checklist "Modules:" 15 60 3 \      "apache" "Apache server" on \      "mysql" "Database" off \      "php" "PHP" on 2>&1)   `
 
-### Barre de progression
+### Progress bar
 
-```bash
-(
-    for i in {0..100..10}; do
-        echo $i
-        sleep 0.2
-    done
-) | python3 wdialog.py --gauge "Installation..." 10 50 0
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   (      for i in {0..100..10}; do          echo $i          sleep 0.2      done  ) | python3 wdialog.py --gauge "Installation..." 10 50 0   `
 
-### Sélection de fichier (NOUVEAU)
+### File selection (NEW)
 
-```bash
-fichier=$(python3 wdialog.py --fselect "/tmp/" 15 60 2>&1)
-echo "Fichier sélectionné : $fichier"
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   file=$(python3 wdialog.py --fselect "/tmp/" 15 60 2>&1)  echo "Selected file: $file"   `
 
-### Menu avec renommage (NOUVEAU)
+### Menu with rename (NEW)
 
-```bash
-choix=$(python3 wdialog.py --inputmenu "Serveurs :" 15 60 3 \
-    "srv1" "Serveur Web" \
-    "srv2" "Serveur DB" \
-    "srv3" "Cache Redis" 2>&1)
-# Retourne soit le tag sélectionné, soit "RENAMED tag nouveau_nom"
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   choice=$(python3 wdialog.py --inputmenu "Servers:" 15 60 3 \      "srv1" "Web Server" \      "srv2" "DB Server" \      "srv3" "Redis Cache" 2>&1)  # Returns either the selected tag, or "RENAMED tag new_name"   `
 
-### Formulaire mixte (NOUVEAU)
+### Mixed form (NEW)
 
-```bash
-# Format: label y x item y x flen ilen itype
-# itype: 0=texte, 1=password, 2=readonly
-resultat=$(python3 wdialog.py --mixedform "Configuration :" 18 70 5 \
-    "Nom:" 1 1 "John" 1 10 20 30 0 \
-    "Pass:" 2 1 "" 2 10 20 30 1 \
-    "ID:" 3 1 "12345" 3 10 10 10 2 \
-    "Email:" 4 1 "john@example.com" 4 10 30 50 0 \
-    "Tel:" 5 1 "+33612345678" 5 10 20 20 0 2>&1)
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   # Format: label y x item y x flen ilen itype  # itype: 0=text, 1=password, 2=readonly  result=$(python3 wdialog.py --mixedform "Configuration:" 18 70 5 \      "Name:" 1 1 "John" 1 10 20 30 0 \      "Pass:" 2 1 "" 2 10 20 30 1 \      "ID:" 3 1 "12345" 3 10 10 10 2 \      "Email:" 4 1 "john@example.com" 4 10 30 50 0 \      "Phone:" 5 1 "+33612345678" 5 10 20 20 0 2>&1)   `
 
-### Gauge avec statuts (NOUVEAU)
+### Gauge with statuses (NEW)
 
-```bash
-# Statuts: 0=Réussi, -1=Échoué, -2=Ignoré, -3=En cours
-python3 wdialog.py --mixedgauge "Installation" 18 60 75 \
-    "Téléchargement" "0" \
-    "Installation" "-3" \
-    "Configuration" "-2" \
-    "Tests" "-2" \
-    "Finalisation" "-2"
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   # Statuses: 0=Success, -1=Failed, -2=Skipped, -3=In progress  python3 wdialog.py --mixedgauge "Installation" 18 60 75 \      "Download" "0" \      "Installation" "-3" \      "Configuration" "-2" \      "Tests" "-2" \      "Finalization" "-2"   `
 
-## 🎨 Personnalisation
+🎨 Customization
+----------------
 
-### Options communes supportées
+### Supported common options
 
-- `--title` : Titre de la boîte de dialogue
-- `--backtitle` : Titre de fond
-- `--ok-label` : Label du bouton OK
-- `--cancel-label` : Label du bouton Annuler
-- `--yes-label` : Label du bouton Oui
-- `--no-label` : Label du bouton Non
-- `--defaultno` : Mettre "Non" par défaut
-- `--no-cancel` : Masquer le bouton Annuler
-- `--extra-button` : Ajouter un bouton supplémentaire
-- `--help-button` : Ajouter un bouton d'aide
+*   \--title: Dialog title
+    
+*   \--backtitle: Background title
+    
+*   \--ok-label: OK button label
+    
+*   \--cancel-label: Cancel button label
+    
+*   \--yes-label: Yes button label
+    
+*   \--no-label: No button label
+    
+*   \--defaultno: Set “No” as default
+    
+*   \--no-cancel: Hide the Cancel button
+    
+*   \--extra-button: Add an extra button
+    
+*   \--help-button: Add a Help button
+    
 
-### Exemple avec options
+### Example with options
 
-```bash
-python3 wdialog.py \
-    --title "Mon Titre" \
-    --backtitle "Application v1.0" \
-    --yes-label "Continuer" \
-    --no-label "Arrêter" \
-    --yesno "Voulez-vous continuer ?" 10 50
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python3 wdialog.py \      --title "My Title" \      --backtitle "Application v1.0" \      --yes-label "Continue" \      --no-label "Stop" \      --yesno "Do you want to continue?" 10 50   `
 
-## 🔧 Configuration avancée
+🔧 Advanced configuration
+-------------------------
 
-### Changer le port du serveur
+### Change the server port
 
-Modifier dans `dialog_server.py` :
+Edit in dialog\_server.py:
 
-```python
-socketio.run(app, host='0.0.0.0', port=5000, debug=True)
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   socketio.run(app, host='0.0.0.0', port=5000, debug=True)   `
 
-### Utiliser un serveur distant
+### Use a remote server
 
-Modifier dans `wdialog.py` l'adresse du serveur :
+Edit the server address in wdialog.py:
 
-```python
-wd = WDialog(server_host='192.168.1.100', server_port=5001)
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   wd = WDialog(server_host='192.168.1.100', server_port=5001)   `
 
-## 📝 Codes de retour
+📝 Return codes
+---------------
 
-Comme la commande `dialog` originale :
+Same as the original dialog command:
 
-- `0` : OK / Yes sélectionné
-- `1` : Cancel / No sélectionné
-- `255` : Erreur ou timeout
+*   0: OK / Yes selected
+    
+*   1: Cancel / No selected
+    
+*   255: Error or timeout
+    
 
-## 🐛 Dépannage
+🐛 Troubleshooting
+------------------
 
-### Le serveur ne démarre pas
+### The server doesn’t start
 
-Vérifiez que les ports 5000 et 5001 ne sont pas déjà utilisés :
+Check that ports 5000 and 5001 are not already in use:
 
-```bash
-lsof -i :5000
-lsof -i :5001
-```
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   lsof -i :5000  lsof -i :5001   `
 
-### Erreur de connexion
+### Connection error
 
-Assurez-vous que :
-1. Le serveur Flask est bien démarré
-2. L'interface web est ouverte dans le navigateur
-3. Le navigateur est connecté (vérifiez l'indicateur de statut en haut à droite)
+Make sure that:
 
-### Les boutons ne répondent pas
+1.  The Flask server is running
+    
+2.  The web interface is open in the browser
+    
+3.  The browser is connected (check the status indicator in the top-right)
+    
 
-Vérifiez la console JavaScript du navigateur (F12) pour voir les erreurs éventuelles.
+### Buttons don’t respond
 
-## 📄 Structure du projet
+Check the browser’s JavaScript console (F12) for possible errors.
 
-```
-dialog-web/
-├── dialog_server.py          # Serveur Flask + WebSocket
-├── wdialog.py               # Client Python (compatible dialog)
-├── templates/
-│   └── dialog_interface.html # Interface web
-├── example_usage.sh          # Exemples d'utilisation
-└── README.md                # Ce fichier
-```
+📄 Project structure
+--------------------
 
-## 🤝 Contribution
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   dialog-web/  ├── dialog_server.py          # Flask + WebSocket server  ├── wdialog.py               # Python client (dialog-compatible)  ├── templates/  │   └── dialog_interface.html # Web interface  ├── example_usage.sh          # Usage examples  └── README.md                # This file   `
 
-Les contributions sont les bienvenues ! N'hésitez pas à :
-- Signaler des bugs
-- Proposer de nouvelles fonctionnalités
-- Améliorer la documentation
+🤝 Contributing
+---------------
 
-## 📜 Licence
+Contributions are welcome! Feel free to:
 
-Ce projet est libre d'utilisation pour vos projets personnels et professionnels.
+*   Report bugs
+    
+*   Propose new features
+    
+*   Improve the documentation
+    
 
-## 🎉 Crédits
+📜 License
+----------
 
-- Interface : Bootstrap 5 + jQuery
-- Communication temps réel : Socket.IO
-- Compatible avec : dialog (Linux)
+This project is free to use for personal and commercial projects.
 
----
+🎉 Credits
+----------
 
-**Bon scripting ! 🚀**
+*   Interface: Bootstrap 5 + jQuery
+    
+*   Real-time communication: Socket.IO
+    
+*   Compatible with: dialog (Linux)
+    
+
+**Happy scripting! 🚀**
+
