@@ -130,22 +130,33 @@ name=$($WDIALOG --title "Name" --inputbox "Enter your name:" 10 50 2>&1)
 ```
    python3 wdialog.py --title "Confirmation" --yesno "Do you want to continue?" 10 50   `
 ```
+
+![Confimartion](https://github.com/zebulon75018/wdialog/blob/master/img/wdialogconfirmation.png?raw=true)
 ### Input box
 ```
- name=$(python3 wdialog.py --title "Input" --inputbox "Enter your name:" 10 50 2>&1)  echo "Name: $name"   `
+ python3 wdialog.py --title "Input" --inputbox "Enter your name:" 10 50 2>&1)  echo "Name: $name"   `
 ```
+
+![textinput](https://github.com/zebulon75018/wdialog/blob/master/img/wdialogtextinput.png?raw=true)
+
 ### Menu
 ```
-  choice=$(python3 wdialog.py --title "Menu" --menu "Choose:" 15 50 3 \      "opt1" "Option 1" \      "opt2" "Option 2" \      "opt3" "Option 3" 2>&1)   `
+ python3 wdialog.py --title "Menu" --menu "Choose:" 15 50 3 \      "opt1" "Option 1" \      "opt2" "Option 2" \      "opt3" "Option 3" 2>&1)   `
 ```
 ### Checklist
 ```
-python3 wdialog.py --checklist "Modules:" 15 60 3 \      "apache" "Apache server" on \      "mysql" "Database" off \      "php" "PHP" on 2>&1
+python3 wdialog.py --checklist "Modules:" 15 60 3       "apache" "Apache server" on       "mysql" "Database" off       "php" "PHP" on 2>&1
 ```
+
+![checklis](https://github.com/zebulon75018/wdialog/blob/master/img/wdialogchecklist.png?raw=true)
+
 ### Progress bar
 ```
 for i in {0..100..10}; do          echo $i          sleep 0.2      done  ) | python3 wdialog.py --gauge "Installation..." 10 50 0   `
 ```
+
+![checklis](https://github.com/zebulon75018/wdialog/blob/master/img/wdialoggauge.png?raw=true)
+
 ### File selection (NEW)
 ```
 python3 wdialog.py --fselect "/tmp/" 15 60 2>&1)  echo "Selected file: $file"   `
@@ -158,6 +169,9 @@ python3 wdialog.py --inputmenu "Servers:" 15 60 3 \      "srv1" "Web Server" \  
 ```
 python3 wdialog.py --mixedform "Configuration:" 18 70 5 \      "Name:" 1 1 "John" 1 10 20 30 0 \      "Pass:" 2 1 "" 2 10 20 30 1 \      "ID:" 3 1 "12345" 3 10 10 10 2 \      "Email:" 4 1 "john@example.com" 4 10 30 50 0 \      "Phone:" 5 1 "+33612345678" 5 10 20 20 0 2>&1)   `
 ```
+![mixform](https://github.com/zebulon75018/wdialog/blob/master/img/wdialogmixform.png?raw=true)
+
+
 ### Gauge with statuses (NEW)
 ```
   python3 wdialog.py --mixedgauge "Installation" 18 60 75 \      "Download" "0" \      "Installation" "-3" \      "Configuration" "-2" \      "Tests" "-2" \      "Finalization" "-2"   `
