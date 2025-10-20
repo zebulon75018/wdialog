@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dialog Web Interface</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .waiting-screen {
+            text-align: center;
+            color: white;
+        }
+        
+        .waiting-screen h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .waiting-screen p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .waiting-screen .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            margin-top: 2rem;
+        }
+        
+        .dialog-container {
+            display: none;
+            width: 100%;
+            max-width: 700px;
+        }
+        
+        .dialog-box {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .dialog-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+        }
+        
+        .dialog-backtitle {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .dialog-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .dialog-body {
+            padding: 30px;
+        }
+        
+        .dialog-text {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .dialog-footer {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .btn-dialog {
+            padding: 10px 24px;
+            font-weight: 500;
+            border-radius: 8px;
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-dialog:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .btn-primary-dialog {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-secondary-dialog {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-success-dialog {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-danger-dialog {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .form-control-dialog {
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            padding: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control-dialog:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .list-group-item-dialog {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .list-group-item-dialog:hover {
+            background: #f8f9fa;
+            border-color: #667eea;
+        }
+        
+        .list-group-item-dialog.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .progress-dialog {
+            height: 30px;
+            border-radius: 15px;
+            background: #e9ecef;
+            overflow: hidden;
+        }
+        
+        .progress-bar-dialog {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .textbox-content {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+        }
+        
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .checkbox-item:hover, .radio-item:hover {
+            background: #f8f9fa;
+            border-color: #667eea;
+        }
+        
+        .checkbox-item input, .radio-item input {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .calendar-grid, .time-selector {
+            display: grid;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .status-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-indicator.connected {
+            border-left: 4px solid #28a745;
+        }
+        
+        .status-indicator.disconnected {
+            border-left: 4px solid #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- Indicateur de statut -->
+    <div class="status-indicator disconnected" id="statusIndicator">
+        <i class="bi bi-circle-fill" style="color: #dc3545; font-size: 0.5rem;"></i>
+        <span id="statusText">En attente de connexion...</span>
+    </div>
+    
+    <!-- Écran d'attente -->
+    <div class="waiting-screen" id="waitingScreen">
+        <i class="bi bi-chat-square-text" style="font-size: 5rem; margin-bottom: 1rem;"></i>
+        <h1>Dialog Web Interface</h1>
+        <p>En attente d'une requête de dialog...</p>
+        <div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Chargement...</span>
+        </div>
+    </div>
+    
+    <!-- Conteneur de dialog -->
+    <div class="dialog-container" id="dialogContainer">
+        <div class="dialog-box">
+            <div class="dialog-header">
+                <div class="dialog-backtitle" id="dialogBacktitle"></div>
+                <h2 class="dialog-title" id="dialogTitle">Dialog</h2>
+            </div>
+            <div class="dialog-body" id="dialogBody">
+                <!-- Le contenu sera inséré ici dynamiquement -->
+            </div>
+            <div class="dialog-footer" id="dialogFooter">
+                <!-- Les boutons seront insérés ici dynamiquement -->
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Socket.IO -->
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    
+    <script>
+        const socket = io();
+        let currentDialogId = null;
+        
+        // Connexion établie
+        socket.on('connect', () => {
+            console.log('Connecté au serveur');
+            $('#statusIndicator').removeClass('disconnected').addClass('connected');
+            $('#statusIndicator i').css('color', '#28a745');
+            $('#statusText').text('Connecté');
+        });
+        
+        // Déconnexion
+        socket.on('disconnect', () => {
+            console.log('Déconnecté du serveur');
+            $('#statusIndicator').removeClass('connected').addClass('disconnected');
+            $('#statusIndicator i').css('color', '#dc3545');
+            $('#statusText').text('Déconnecté');
+        });
+        
+        // Réception d'une requête de dialog
+        socket.on('show_dialog', (data) => {
+            console.log('Requête de dialog reçue:', data);
+            currentDialogId = data.dialog_id;
+            showDialog(data);
+        });
+        
+        // Fonction pour afficher un dialog
+        function showDialog(data) {
+            const type = data.type;
+            const params = data.params;
+            const labels = data.labels || {};
+            const options = data.options || {};
+            
+            // Masquer l'écran d'attente
+            $('#waitingScreen').hide();
+            $('#dialogContainer').show();
+            
+            // Titre et backtitle
+            if (data.title) {
+                $('#dialogTitle').text(data.title);
+            } else {
+                $('#dialogTitle').text('Dialog');
+            }
+            
+            if (data.backtitle) {
+                $('#dialogBacktitle').text(data.backtitle).show();
+            } else {
+                $('#dialogBacktitle').hide();
+            }
+            
+            // Effacer le contenu précédent
+            $('#dialogBody').empty();
+            $('#dialogFooter').empty();
+            
+            // Générer le contenu selon le type
+            switch(type) {
+                case 'yesno':
+                    showYesNo(params, labels, options);
+                    break;
+                case 'msgbox':
+                    showMsgBox(params, labels, options);
+                    break;
+                case 'inputbox':
+                    showInputBox(params, labels, options);
+                    break;
+                case 'passwordbox':
+                    showPasswordBox(params, labels, options);
+                    break;
+                case 'textbox':
+                    showTextBox(params, labels, options);
+                    break;
+                case 'menu':
+                    showMenu(params, labels, options);
+                    break;
+                case 'checklist':
+                    showCheckList(params, labels, options);
+                    break;
+                case 'radiolist':
+                    showRadioList(params, labels, options);
+                    break;
+                case 'gauge':
+                    showGauge(params, labels, options);
+                    break;
+                case 'infobox':
+                    showInfoBox(params, labels, options);
+                    break;
+                case 'calendar':
+                    showCalendar(params, labels, options);
+                    break;
+                case 'timebox':
+                    showTimeBox(params, labels, options);
+                    break;
+                case 'fselect':
+                    showFSelect(params, labels, options);
+                    break;
+                case 'inputmenu':
+                    showInputMenu(params, labels, options);
+                    break;
+                case 'mixedform':
+                    showMixedForm(params, labels, options);
+                    break;
+                case 'mixedgauge':
+                    showMixedGauge(params, labels, options);
+                    break;
+                default:
+                    $('#dialogBody').html(`<p class="dialog-text">Type de dialog non supporté: ${type}</p>`);
+            }
+        }
+        
+        // YesNo Dialog
+        function showYesNo(params, labels, options) {
+            $('#dialogBody').html(`<p class="dialog-text">${params.text}</p>`);
+            
+            const yesLabel = labels.yes || 'Oui';
+            const noLabel = labels.no || 'Non';
+            
+            const yesBtn = $(`<button class="btn btn-dialog btn-success-dialog">${yesLabel}</button>`);
+            const noBtn = $(`<button class="btn btn-dialog btn-danger-dialog">${noLabel}</button>`);
+            
+            yesBtn.click(() => sendResponse(0, ''));
+            noBtn.click(() => sendResponse(1, ''));
+            
+            if (options.default_no) {
+                $('#dialogFooter').append(noBtn, yesBtn);
+                noBtn.focus();
+            } else {
+                $('#dialogFooter').append(yesBtn, noBtn);
+                yesBtn.focus();
+            }
+        }
+        
+        // MsgBox Dialog
+        function showMsgBox(params, labels, options) {
+            $('#dialogBody').html(`<p class="dialog-text">${params.text}</p>`);
+            
+            const okLabel = labels.ok || 'OK';
+            const okBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${okLabel}</button>`);
+            okBtn.click(() => sendResponse(0, ''));
+            
+            $('#dialogFooter').append(okBtn);
+            okBtn.focus();
+        }
+        
+        // InputBox Dialog
+        function showInputBox(params, labels, options) {
+            const input = $(`
+                <div>
+                    <p class="dialog-text">${params.text}</p>
+                    <input type="text" class="form-control form-control-dialog" id="inputValue" value="${params.init || ''}">
+                </div>
+            `);
+            
+            $('#dialogBody').append(input);
+            
+            const okLabel = labels.ok || 'OK';
+            const cancelLabel = labels.cancel || 'Annuler';
+            
+            const okBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${okLabel}</button>`);
+            const cancelBtn = $(`<button class="btn btn-dialog btn-secondary-dialog">${cancelLabel}</button>`);
+            
+            okBtn.click(() => {
+                const value = $('#inputValue').val();
+                sendResponse(0, value);
+            });
+            cancelBtn.click(() => sendResponse(1, ''));
+            
+            $('#dialogFooter').append(okBtn);
+            if (!options.no_cancel) {
+                $('#dialogFooter').append(cancelBtn);
+            }
+            
+            $('#inputValue').focus();
+            $('#inputValue').keypress((e) => {
+                if (e.which === 13) okBtn.click();
+            });
+        }
+        
+        // PasswordBox Dialog
+        function showPasswordBox(params, labels, options) {
+            const input = $(`
+                <div>
+                    <p class="dialog-text">${params.text}</p>
+                    <input type="password" class="form-control form-control-dialog" id="passwordValue" value="${params.init || ''}">
+                </div>
+            `);
+            
+            $('#dialogBody').append(input);
+            
+            const okLabel = labels.ok || 'OK';
+            const cancelLabel = labels.cancel || 'Annuler';
+            
+            const okBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${okLabel}</button>`);
+            const cancelBtn = $(`<button class="btn btn-dialog btn-secondary-dialog">${cancelLabel}</button>`);
+            
+            okBtn.click(() => {
+                const value = $('#passwordValue').val();
+                sendResponse(0, value);
+            });
+            cancelBtn.click(() => sendResponse(1, ''));
+            
+            $('#dialogFooter').append(okBtn);
+            if (!options.no_cancel) {
+                $('#dialogFooter').append(cancelBtn);
+            }
+            
+            $('#passwordValue').focus();
+            $('#passwordValue').keypress((e) => {
+                if (e.which === 13) okBtn.click();
+            });
+        }
+        
+        // TextBox Dialog
+        function showTextBox(params, labels, options) {
+            const content = $(`
+                <div>
+                    <p class="dialog-text">${params.text || 'Contenu du fichier:'}</p>
+                    <div class="textbox-content">${params.text}</div>
+                </div>
+            `);
+            
+            $('#dialogBody').append(content);
+            
+            const exitLabel = labels.ok || 'Fermer';
+            const exitBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${exitLabel}</button>`);
+            exitBtn.click(() => sendResponse(0, ''));
+            
+            $('#dialogFooter').append(exitBtn);
+        }
+        
+        // Menu Dialog
+        function showMenu(params, labels, options) {
+            const menuHtml = $(`
+                <div>
+                    <p class="dialog-text">${params.text}</p>
+                    <div id="menuItems"></div>
+                </div>
+            `);
+            
+            $('#dialogBody').append(menuHtml);
+            
+            params.items.forEach((item, index) => {
+                const menuItem = $(`
+                    <div class="list-group-item-dialog" data-tag="${item.tag}">
+                        <strong>${item.tag}</strong>: ${item.item}
+                    </div>
+                `);
+                
+                menuItem.click(function() {
+                    $('.list-group-item-dialog').removeClass('active');
+                    $(this).addClass('active');
+                });
+                
+                menuItem.dblclick(function() {
+                    sendResponse(0, item.tag);
+                });
+                
+                $('#menuItems').append(menuItem);
+            });
+            
+            const okLabel = labels.ok || 'OK';
+            const cancelLabel = labels.cancel || 'Annuler';
+            
+            const okBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${okLabel}</button>`);
+            const cancelBtn = $(`<button class="btn btn-dialog btn-secondary-dialog">${cancelLabel}</button>`);
+            
+            okBtn.click(() => {
+                const selected = $('.list-group-item-dialog.active').data('tag');
+                if (selected) {
+                    sendResponse(0, selected);
+                } else {
+                    sendResponse(1, '');
+                }
+            });
+            cancelBtn.click(() => sendResponse(1, ''));
+            
+            $('#dialogFooter').append(okBtn);
+            if (!options.no_cancel) {
+                $('#dialogFooter').append(cancelBtn);
+            }
+        }
+        
+        // CheckList Dialog
+        function showCheckList(params, labels, options) {
+            const checklistHtml = $(`
+                <div>
+                    <p class="dialog-text">${params.text}</p>
+                    <div id="checklistItems"></div>
+                </div>
+            `);
+            
+            $('#dialogBody').append(checklistHtml);
+            
+            params.items.forEach((item, index) => {
+                const checkItem = $(`
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="check_${index}" ${item.status ? 'checked' : ''} data-tag="${item.tag}">
+                        <label for="check_${index}" style="cursor: pointer; margin: 0; flex: 1;">
+                            <strong>${item.tag}</strong>: ${item.item}
+                        </label>
+                    </div>
+                `);
+                
+                $('#checklistItems').append(checkItem);
+            });
+            
+            const okLabel = labels.ok || 'OK';
+            const cancelLabel = labels.cancel || 'Annuler';
+            
+            const okBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${okLabel}</button>`);
+            const cancelBtn = $(`<button class="btn btn-dialog btn-secondary-dialog">${cancelLabel}</button>`);
+            
+            okBtn.click(() => {
+                const selected = [];
+                $('#checklistItems input:checked').each(function() {
+                    selected.push($(this).data('tag'));
+                });
+                sendResponse(0, selected.join(' '));
+            });
+            cancelBtn.click(() => sendResponse(1, ''));
+            
+            $('#dialogFooter').append(okBtn);
+            if (!options.no_cancel) {
+                $('#dialogFooter').append(cancelBtn);
+            }
+        }
+        
+        // RadioList Dialog
+        function showRadioList(params, labels, options) {
+            const radiolistHtml = $(`
+                <div>
+                    <p class="dialog-text">${params.text}</p>
+                    <div id="radiolistItems"></div>
+                </div>
+            `);
+            
+            $('#dialogBody').append(radiolistHtml);
+            
+            params.items.forEach((item, index) => {
+                const radioItem = $(`
+                    <div class="radio-item">
+                        <input type="radio" name="radiolist" id="radio_${index}" ${item.status ? 'checked' : ''} data-tag="${item.tag}">
+                        <label for="radio_${index}" style="cursor: pointer; margin: 0; flex: 1;">
+                            <strong>${item.tag}</strong>: ${item.item}
+                        </label>
+                    </div>
+                `);
+                
+                $('#radiolistItems').append(radioItem);
+            });
+            
+            const okLabel = labels.ok || 'OK';
+            const cancelLabel = labels.cancel || 'Annuler';
+            
+            const okBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${okLabel}</button>`);
+            const cancelBtn = $(`<button class="btn btn-dialog btn-secondary-dialog">${cancelLabel}</button>`);
+            
+            okBtn.click(() => {
+                const selected = $('#radiolistItems input:checked').data('tag');
+                if (selected) {
+                    sendResponse(0, selected);
+                } else {
+                    sendResponse(1, '');
+                }
+            });
+            cancelBtn.click(() => sendResponse(1, ''));
+            
+            $('#dialogFooter').append(okBtn);
+            if (!options.no_cancel) {
+                $('#dialogFooter').append(cancelBtn);
+            }
+        }
+        
+        // Gauge Dialog (barre de progression)
+        function showGauge(params, labels, options) {
+            const gaugeHtml = $(`
+                <div>
+                    <p class="dialog-text">${params.text}</p>
+                    <div class="progress-dialog">
+                        <div class="progress-bar-dialog" role="progressbar" style="width: ${params.percent}%">
+                            ${params.percent}%
+                        </div>
+                    </div>
+                </div>
+            `);
+            
+            $('#dialogBody').append(gaugeHtml);
+            
+            // Simulation d'une progression (dans un vrai cas, cela viendrait du script bash)
+            let progress = params.percent || 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                if (progress > 100) {
+                    clearInterval(interval);
+                    sendResponse(0, '');
+                } else {
+                    $('.progress-bar-dialog').css('width', progress + '%').text(progress + '%');
+                }
+            }, 100);
+        }
+        
+        // InfoBox Dialog
+        function showInfoBox(params, labels, options) {
+            $('#dialogBody').html(`<p class="dialog-text">${params.text}</p>`);
+            
+            // L'infobox se ferme automatiquement après 2 secondes
+            setTimeout(() => {
+                sendResponse(0, '');
+            }, 2000);
+        }
+        
+        // Calendar Dialog
+        function showCalendar(params, labels, options) {
+            const today = new Date();
+            const day = params.day > 0 ? params.day : today.getDate();
+            const month = params.month > 0 ? params.month : today.getMonth() + 1;
+            const year = params.year > 0 ? params.year : today.getFullYear();
+            
+            const calendarHtml = $(`
+                <div>
+                    <p class="dialog-text">${params.text}</p>
+                    <input type="date" class="form-control form-control-dialog" id="calendarValue" value="${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}">
+                </div>
+            `);
+            
+            $('#dialogBody').append(calendarHtml);
+            
+            const okLabel = labels.ok || 'OK';
+            const cancelLabel = labels.cancel || 'Annuler';
+            
+            const okBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${okLabel}</button>`);
+            const cancelBtn = $(`<button class="btn btn-dialog btn-secondary-dialog">${cancelLabel}</button>`);
+            
+            okBtn.click(() => {
+                const value = $('#calendarValue').val();
+                const [y, m, d] = value.split('-');
+                sendResponse(0, `${d}/${m}/${y}`);
+            });
+            cancelBtn.click(() => sendResponse(1, ''));
+            
+            $('#dialogFooter').append(okBtn, cancelBtn);
+        }
+        
+        // TimeBox Dialog
+        function showTimeBox(params, labels, options) {
+            const now = new Date();
+            const hour = params.hour >= 0 ? params.hour : now.getHours();
+            const minute = params.minute >= 0 ? params.minute : now.getMinutes();
+            const second = params.second >= 0 ? params.second : now.getSeconds();
+            
+            const timeHtml = $(`
+                <div>
+                    <p class="dialog-text">${params.text}</p>
+                    <input type="time" class="form-control form-control-dialog" id="timeValue" value="${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}" step="1">
+                </div>
+            `);
+            
+            $('#dialogBody').append(timeHtml);
+            
+            const okLabel = labels.ok || 'OK';
+            const cancelLabel = labels.cancel || 'Annuler';
+            
+            const okBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${okLabel}</button>`);
+            const cancelBtn = $(`<button class="btn btn-dialog btn-secondary-dialog">${cancelLabel}</button>`);
+            
+            okBtn.click(() => {
+                const value = $('#timeValue').val();
+                sendResponse(0, value);
+            });
+            cancelBtn.click(() => sendResponse(1, ''));
+            
+            $('#dialogFooter').append(okBtn, cancelBtn);
+        }
+        
+        // FSelect Dialog (File Selection)
+        function showFSelect(params, labels, options) {
+            const fselectHtml = $(`
+                <div>
+                    <p class="dialog-text">Sélectionnez un fichier ou entrez un chemin</p>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Chemin :</label>
+                        <input type="text" class="form-control form-control-dialog" id="filepath" value="${params.filepath || ''}">
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Ou sélectionnez un fichier :</label>
+                        <input type="file" class="form-control form-control-dialog" id="fileInput" style="padding: 8px;">
+                    </div>
+                    <div style="background: #f8f9fa; padding: 10px; border-radius: 8px; font-size: 0.9rem;">
+                        <i class="bi bi-info-circle"></i> Note : La sélection de fichier local n'envoie que le nom du fichier pour des raisons de sécurité.
+                    </div>
+                </div>
+            `);
+            
+            $('#dialogBody').append(fselectHtml);
+            
+            // Quand un fichier est sélectionné, mettre à jour le champ texte
+            $('#fileInput').change(function() {
+                const fileName = $(this).val().split('\\').pop();
+                $('#filepath').val(fileName);
+            });
+            
+            const okLabel = labels.ok || 'OK';
+            const cancelLabel = labels.cancel || 'Annuler';
+            
+            const okBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${okLabel}</button>`);
+            const cancelBtn = $(`<button class="btn btn-dialog btn-secondary-dialog">${cancelLabel}</button>`);
+            
+            okBtn.click(() => {
+                const value = $('#filepath').val();
+                sendResponse(0, value);
+            });
+            cancelBtn.click(() => sendResponse(1, ''));
+            
+            $('#dialogFooter').append(okBtn, cancelBtn);
+        }
+        
+        // InputMenu Dialog (Menu with Rename capability)
+        function showInputMenu(params, labels, options) {
+            const inputmenuHtml = $(`
+                <div>
+                    <p class="dialog-text">${params.text}</p>
+                    <div id="inputmenuItems"></div>
+                </div>
+            `);
+            
+            $('#dialogBody').append(inputmenuHtml);
+            
+            params.items.forEach((item, index) => {
+                const menuItem = $(`
+                    <div class="list-group-item-dialog" data-tag="${item.tag}" data-index="${index}" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="flex: 1;">
+                            <strong>${item.tag}</strong>: <span class="item-text">${item.item}</span>
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary rename-btn" style="padding: 4px 12px; border-radius: 6px;">
+                            <i class="bi bi-pencil"></i> Renommer
+                        </button>
+                    </div>
+                `);
+                
+                menuItem.click(function(e) {
+                    if (!$(e.target).closest('.rename-btn').length) {
+                        $('.list-group-item-dialog').removeClass('active');
+                        $(this).addClass('active');
+                    }
+                });
+                
+                menuItem.find('.rename-btn').click(function(e) {
+                    e.stopPropagation();
+                    const itemTextSpan = $(this).closest('.list-group-item-dialog').find('.item-text');
+                    const currentText = itemTextSpan.text();
+                    const newText = prompt('Nouveau nom:', currentText);
+                    if (newText !== null && newText !== currentText) {
+                        itemTextSpan.text(newText);
+                        const tag = $(this).closest('.list-group-item-dialog').data('tag');
+                        sendResponse(0, `RENAMED ${tag} ${newText}`);
+                    }
+                });
+                
+                $('#inputmenuItems').append(menuItem);
+            });
+            
+            const okLabel = labels.ok || 'OK';
+            const cancelLabel = labels.cancel || 'Annuler';
+            const renameLabel = labels.extra || 'Renommer';
+            
+            const okBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${okLabel}</button>`);
+            const cancelBtn = $(`<button class="btn btn-dialog btn-secondary-dialog">${cancelLabel}</button>`);
+            
+            okBtn.click(() => {
+                const selected = $('.list-group-item-dialog.active').data('tag');
+                if (selected) {
+                    sendResponse(0, selected);
+                } else {
+                    sendResponse(1, '');
+                }
+            });
+            cancelBtn.click(() => sendResponse(1, ''));
+            
+            $('#dialogFooter').append(okBtn);
+            if (!options.no_cancel) {
+                $('#dialogFooter').append(cancelBtn);
+            }
+        }
+        
+        // MixedForm Dialog (Form with different field types)
+        function showMixedForm(params, labels, options) {
+            const mixedformHtml = $(`
+                <div>
+                    <p class="dialog-text">${params.text}</p>
+                    <div id="mixedformFields" style="max-height: 400px; overflow-y: auto;">
+                    </div>
+                </div>
+            `);
+            
+            $('#dialogBody').append(mixedformHtml);
+            
+            params.fields.forEach((field, index) => {
+                let fieldHtml;
+                const isPassword = field.itype & 1;  // Bit 1: hidden (password)
+                const isReadonly = field.itype & 2;  // Bit 2: readonly
+                
+                if (isReadonly) {
+                    fieldHtml = $(`
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">${field.label}</label>
+                            <input type="text" 
+                                   class="form-control form-control-dialog mixedform-field" 
+                                   data-index="${index}"
+                                   value="${field.item || ''}"
+                                   readonly
+                                   style="background-color: #e9ecef;">
+                        </div>
+                    `);
+                } else if (isPassword) {
+                    fieldHtml = $(`
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">${field.label}</label>
+                            <input type="password" 
+                                   class="form-control form-control-dialog mixedform-field" 
+                                   data-index="${index}"
+                                   value="${field.item || ''}"
+                                   maxlength="${field.ilen || field.flen || 100}">
+                        </div>
+                    `);
+                } else {
+                    fieldHtml = $(`
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">${field.label}</label>
+                            <input type="text" 
+                                   class="form-control form-control-dialog mixedform-field" 
+                                   data-index="${index}"
+                                   value="${field.item || ''}"
+                                   maxlength="${field.ilen || field.flen || 100}">
+                        </div>
+                    `);
+                }
+                
+                $('#mixedformFields').append(fieldHtml);
+            });
+            
+            const okLabel = labels.ok || 'OK';
+            const cancelLabel = labels.cancel || 'Annuler';
+            
+            const okBtn = $(`<button class="btn btn-dialog btn-primary-dialog">${okLabel}</button>`);
+            const cancelBtn = $(`<button class="btn btn-dialog btn-secondary-dialog">${cancelLabel}</button>`);
+            
+            okBtn.click(() => {
+                const values = [];
+                $('.mixedform-field').each(function() {
+                    if (!$(this).prop('readonly')) {
+                        values.push($(this).val());
+                    }
+                });
+                sendResponse(0, values.join('\n'));
+            });
+            cancelBtn.click(() => sendResponse(1, ''));
+            
+            $('#dialogFooter').append(okBtn);
+            if (!options.no_cancel) {
+                $('#dialogFooter').append(cancelBtn);
+            }
+            
+            $('.mixedform-field:not([readonly])').first().focus();
+        }
+        
+        // MixedGauge Dialog (Gauge with item list)
+        function showMixedGauge(params, labels, options) {
+            const mixedgaugeHtml = $(`
+                <div>
+                    <div id="mixedgaugeItems" style="margin-bottom: 20px; max-height: 200px; overflow-y: auto;">
+                    </div>
+                    <p class="dialog-text" style="text-align: center; font-weight: 600; margin: 15px 0;">${params.text}</p>
+                    <div class="progress-dialog">
+                        <div class="progress-bar-dialog" role="progressbar" style="width: ${params.percent}%">
+                            ${params.percent}%
+                        </div>
+                    </div>
+                </div>
+            `);
+            
+            $('#dialogBody').append(mixedgaugeHtml);
+            
+            // Afficher les items
+            params.items.forEach((item, index) => {
+                let status = '';
+                let statusClass = '';
+                let icon = '';
+                
+                // Interpréter le tag selon les conventions de dialog
+                switch(item.item) {
+                    case '0':
+                    case 'Succeeded':
+                        status = '✓ Réussi';
+                        statusClass = 'text-success';
+                        icon = '<i class="bi bi-check-circle-fill text-success"></i>';
+                        break;
+                    case '-1':
+                    case 'Failed':
+                        status = '✗ Échoué';
+                        statusClass = 'text-danger';
+                        icon = '<i class="bi bi-x-circle-fill text-danger"></i>';
+                        break;
+                    case '-2':
+                    case 'Passed':
+                        status = '→ Passé';
+                        statusClass = 'text-muted';
+                        icon = '<i class="bi bi-dash-circle text-muted"></i>';
+                        break;
+                    case '-3':
+                    case 'In Progress':
+                        status = '⟳ En cours';
+                        statusClass = 'text-primary';
+                        icon = '<i class="bi bi-arrow-repeat text-primary"></i>';
+                        break;
+                    default:
+                        status = item.item;
+                        icon = '<i class="bi bi-circle text-secondary"></i>';
+                }
+                
+                const itemHtml = $(`
+                    <div style="display: flex; align-items: center; padding: 8px; border-bottom: 1px solid #e0e0e0;">
+                        <div style="width: 30px;">${icon}</div>
+                        <div style="flex: 1; font-weight: 500;">${item.tag}</div>
+                        <div class="${statusClass}" style="font-size: 0.9rem;">${status}</div>
+                    </div>
+                `);
+                
+                $('#mixedgaugeItems').append(itemHtml);
+            });
+            
+            // Auto-fermeture après 3 secondes (peut être modifié)
+            setTimeout(() => {
+                sendResponse(0, '');
+            }, 3000);
+        }
+        
+        // Fonction pour envoyer la réponse
+        function sendResponse(exitCode, output) {
+            socket.emit('dialog_response', {
+                dialog_id: currentDialogId,
+                response: {
+                    exit_code: exitCode,
+                    output: output
+                }
+            });
+            
+            // Réinitialiser l'interface
+            $('#dialogContainer').hide();
+            $('#waitingScreen').show();
+            currentDialogId = null;
+        }
+    </script>
+</body>
+</html>
