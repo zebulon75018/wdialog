@@ -101,6 +101,11 @@ Open your browser and go to: [**http://localhost:5000**](http://localhost:5000)
 
 You’ll see the waiting screen indicating the interface is ready to receive requests.
 
+
+![Waiting](https://github.com/zebulon75018/wdialog/blob/master/img/wdialogwait.png?raw=true)
+
+
+
 ### 3\. Use wdialog.py in your bash scripts
 
 In a second terminal, you can now use wdialog.py just like you would use dialog:
