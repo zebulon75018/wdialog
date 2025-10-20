@@ -1,4 +1,4 @@
-i# Dialog Web Interface
+# Dialog Web Interface
 
 Modern web interface to display dialog boxes from bash scripts, compatible with the `dialog` command specifications.  
 This project is a WIP.
