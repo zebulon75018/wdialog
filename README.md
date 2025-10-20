@@ -3,7 +3,7 @@
 Modern web interface to display dialog boxes from bash scripts, compatible with the `dialog` command specifications.  
 This project is a WIP.
 
-It could be really interesting to configure a device with out screen , but with a network access. ( IOT ). 
+It could be really interesting to make script to configure a device with out screen , but with a network access. ( IOT ). 
 
 ## 🎯 Features
 
