@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture Dialog Web</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .toggle-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .toggle-btn {
+            padding: 12px 30px;
+            background: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .diagram-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            min-height: 800px;
+        }
+        
+        .method-view {
+            display: none;
+        }
+        
+        .method-view.active {
+            display: block;
+        }
+        
+        /* Styles pour les composants */
+        .component {
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .component:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .component-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .component-desc {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6;
+        }
+        
+        .icon {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 1.2rem;
+        }
+        
+        /* Couleurs par type */
+        .qt-app {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border: 2px solid #667eea;
+        }
+        
+        .browser {
+            background: linear-gradient(135deg, #f093fb15 0%, #f5576c15 100%);
+            border: 2px solid #f093fb;
+        }
+        
+        .python {
+            background: linear-gradient(135deg, #4facfe15 0%, #00f2fe15 100%);
+            border: 2px solid #4facfe;
+        }
+        
+        .server {
+            background: linear-gradient(135deg, #43e97b15 0%, #38f9d715 100%);
+            border: 2px solid #43e97b;
+        }
+        
+        .script {
+            background: linear-gradient(135deg, #fa709a15 0%, #fee14015 100%);
+            border: 2px solid #fa709a;
+        }
+        
+        .web {
+            background: linear-gradient(135deg, #30cfd015 0%, #330867 15 100%);
+            border: 2px solid #30cfd0;
+        }
+        
+        /* Flèches de connexion */
+        .arrow {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 2rem;
+            color: #667eea;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .flow-label {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #667eea;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        
+        /* Grid Layout */
+        .flow-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        @media (min-width: 768px) {
+            .flow-grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .flow-grid-3 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 30px 0 20px 0;
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 2px solid;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .highlight {
+            color: #50fa7b;
+        }
+        
+        .connection-line {
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            margin: 20px 0;
+            position: relative;
+            animation: flow 2s linear infinite;
+        }
+        
+        @keyframes flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .step-number {
+            width: 35px;
+            height: 35px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .step-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏗️ Architecture Dialog Web</h1>
+        <p class="subtitle">Interface web moderne pour les boîtes de dialogue shell</p>
+        
+        <div class="toggle-buttons">
+            <button class="toggle-btn active" onclick="showMethod('qt')">
+                🖥️ Application Qt
+            </button>
+            <button class="toggle-btn" onclick="showMethod('browser')">
+                🌐 Navigateur Web
+            </button>
+            <button class="toggle-btn" onclick="showMethod('comparison')">
+                📊 Comparaison
+            </button>
+        </div>
+        
+        <div class="diagram-container">
+            <!-- Vue Application Qt -->
+            <div id="qt-view" class="method-view active">
+                <h2 class="section-title">Architecture avec Application Qt</h2>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color qt-app" style="border-color: #667eea;"></div>
+                        <span>Application Qt (python)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color server" style="border-color: #43e97b;"></div>
+                        <span>Serveur Flask (Python)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color script" style="border-color: #fa709a;"></div>
+                        <span>Scripts Bash</span>
+                    </div>
+                </div>
+                
+                <div class="flow-grid">
+                    <!-- Qt App -->
+                    <div class="component qt-app">
+                        <div class="component-title">
+                            <div class="icon">🖥️</div>
+                            dialog_web_qt (Python/Qt)
+                        </div>
+                        <div class="component-desc">
+                            <strong>Rôle :</strong> Application native qui gère tout automatiquement<br>
+                            <strong>Fonctions :</strong>
+                            <ul style="margin-top: 8px; margin-left: 20px;">
+                                <li>Lance le serveur Flask en sous-processus</li>
+                                <li>Affiche une fenêtre QWebEngineView sans bordures</li>
+                                <li>Centre la fenêtre automatiquement</li>
+                                <li>Surveille l'état du serveur</li>
+                                <li>Ferme automatiquement à la fin</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">⬇️</div>
+                    <div class="flow-label">Lance automatiquement (QProcess)</div>
+                    
+                    <!-- Flask Server -->
+                    <div class="component server">
+                        <div class="component-title">
+                            <div class="icon">🐍</div>
+                            dialog_server.py (Flask + SocketIO)
+                        </div>
+                        <div class="component-desc">
+                            <strong>Rôle :</strong> Serveur web et gestionnaire de communication<br>
+                            <strong>Ports :</strong>
+                            <ul style="margin-top: 8px; margin-left: 20px;">
+                                <li>Port 5000 : Interface web (HTTP + WebSocket)</li>
+                                <li>Port 5001 : Socket serveur pour wdialog.py</li>
+                            </ul>
+                            <strong>Fonctions :</strong>
+                            <ul style="margin-top: 8px; margin-left: 20px;">
+                                <li>Sert l'interface HTML/CSS/JS</li>
+                                <li>Gère les WebSocket pour la communication temps réel</li>
+                                <li>Reçoit les requêtes de wdialog.py via socket TCP</li>
+                                <li>Transmet les réponses utilisateur</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">⬇️</div>
+                    <div class="flow-label">Charge l'URL http://localhost:5000</div>
+                    
+                    <!-- Interface Web -->
+                    <div class="component web">
+                        <div class="component-title">
+                            <div class="icon">🎨</div>
+                            dialog_interface.html (Interface Web)
+                        </div>
+                        <div class="component-desc">
+                            <strong>Rôle :</strong> Interface utilisateur moderne<br>
+                            <strong>Technologies :</strong> Bootstrap 5 + jQuery + Socket.IO<br>
+                            <strong>Widgets supportés :</strong> yesno, msgbox, inputbox, passwordbox, menu, checklist, radiolist, calendar, timebox, fselect, inputmenu, mixedform, mixedgauge, textbox, gauge, infobox
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="section-title" style="margin-top: 40px;">Flux de communication</h3>
+                
+                <div class="process-flow">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Script Bash lance wdialog.py</div>
+                            <div class="step-desc">
+                                <div class="code-block">
+                                    <span class="highlight">python3</span> wdialog.py --yesno <span class="highlight">"Continuer ?"</span> 10 50
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">wdialog.py → Socket TCP (port 5001)</div>
+                            <div class="step-desc">
+                                Envoie une requête JSON avec le type de dialog et les paramètres
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">dialog_server.py → WebSocket</div>
+                            <div class="step-desc">
+                                Transmet la requête à l'interface web via WebSocket (event: show_dialog)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Interface Web affiche le dialog</div>
+                            <div class="step-desc">
+                                JavaScript génère dynamiquement le HTML du widget demandé
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-title">Utilisateur répond</div>
+                            <div class="step-desc">
+                                Click sur OK/Cancel/Yes/No ou saisie de texte
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <div class="step-title">Réponse → WebSocket → TCP Socket</div>
+                            <div class="step-desc">
+                                La réponse remonte via WebSocket puis TCP vers wdialog.py
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">7</div>
+                        <div class="step-content">
+                            <div class="step-title">wdialog.py retourne au script bash</div>
+                            <div class="step-desc">
+                                Code de retour : 0 (OK/Yes) ou 1 (Cancel/No) + output sur stdout
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">8</div>
+                        <div class="step-content">
+                            <div class="step-title">Fermeture automatique</div>
+                            <div class="step-desc">
+                                Quand tous les scripts sont terminés, le serveur s'arrête et l'app Qt se ferme
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vue Navigateur Web -->
+            <div id="browser-view" class="method-view">
+                <h2 class="section-title">Architecture avec Navigateur Web</h2>
+                
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color browser" style="border-color: #f093fb;"></div>
+                        <span>Navigateur Web</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color server" style="border-color: #43e97b;"></div>
+                        <span>Serveur Flask (Python)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color script" style="border-color: #fa709a;"></div>
+                        <span>Scripts Bash</span>
+                    </div>
+                </div>
+                
+                <div class="flow-grid">
+                    <!-- Navigateur -->
+                    <div class="component browser">
+                        <div class="component-title">
+                            <div class="icon">🌐</div>
+                            Navigateur Web (Chrome, Firefox, etc.)
+                        </div>
+                        <div class="component-desc">
+                            <strong>Rôle :</strong> Affiche l'interface web<br>
+                            <strong>URL :</strong> http://localhost:5000<br>
+                            <strong>Démarrage :</strong> Manuel (ouvert par l'utilisateur)<br>
+                            <strong>Note :</strong> Doit rester ouvert pendant l'utilisation
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">⬆️⬇️</div>
+                    <div class="flow-label">HTTP + WebSocket (bidirectionnel)</div>
+                    
+                    <!-- Flask Server -->
+                    <div class="component server">
+                        <div class="component-title">
+                            <div class="icon">🐍</div>
+                            dialog_server.py (Flask + SocketIO)
+                        </div>
+                        <div class="component-desc">
+                            <strong>Démarrage :</strong> Manuel
+                            <div class="code-block" style="margin-top: 10px;">
+                                <span class="highlight">python3</span> dialog_server.py
+                            </div>
+                            <strong>Fonctions :</strong> Identiques à la version Qt<br>
+                            <strong>Fermeture :</strong> Manuelle (Ctrl+C)
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">⬆️⬇️</div>
+                    <div class="flow-label">Socket TCP (port 5001)</div>
+                    
+                    <!-- wdialog.py -->
+                    <div class="component python">
+                        <div class="component-title">
+                            <div class="icon">🐍</div>
+                            wdialog.py (Client Python)
+                        </div>
+                        <div class="component-desc">
+                            <strong>Rôle :</strong> Interface compatible avec dialog<br>
+                            <strong>Utilisation :</strong> Appelé depuis les scripts bash<br>
+                            <strong>Communication :</strong> Socket TCP vers port 5001
+                        </div>
+                    </div>
+                    
+                    <div class="arrow">⬆️</div>
+                    <div class="flow-label">Appelé par</div>
+                    
+                    <!-- Script Bash -->
+                    <div class="component script">
+                        <div class="component-title">
+                            <div class="icon">📜</div>
+                            Script Bash
+                        </div>
+                        <div class="component-desc">
+                            <strong>Exemple :</strong>
+                            <div class="code-block" style="margin-top: 10px;">
+#!/bin/bash<br>
+nom=$(<span class="highlight">python3 wdialog.py</span> --inputbox <span class="highlight">"Nom :"</span> 10 50 2>&1)<br>
+<span class="highlight">echo</span> "Bonjour $nom"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="section-title" style="margin-top: 40px;">Processus de démarrage</h3>
+                
+                <div class="process-flow">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Démarrer le serveur manuellement</div>
+                            <div class="step-desc">
+                                <div class="code-block">
+                                    <span class="highlight">python3</span> dialog_server.py
+                                </div>
+                                Le serveur démarre sur les ports 5000 et 5001
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Ouvrir le navigateur</div>
+                            <div class="step-desc">
+                                Accéder à http://localhost:5000 - L'interface affiche "En attente de requête..."
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Lancer le script bash</div>
+                            <div class="step-desc">
+                                Le script utilise wdialog.py pour afficher les dialogs
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Fermer manuellement</div>
+                            <div class="step-desc">
+                                Appuyer sur Ctrl+C dans le terminal pour arrêter le serveur
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vue Comparaison -->
+            <div id="comparison-view" class="method-view">
+                <h2 class="section-title">Comparaison des Architectures</h2>
+                
+                <div class="flow-grid flow-grid-2">
+                    <div>
+                        <h3 style="color: #667eea; margin-bottom: 15px;">🖥️ Application Qt</h3>
+                        
+                        <div class="component qt-app">
+                            <div class="component-title">
+                                ✅ Avantages
+                            </div>
+                            <div class="component-desc">
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Automatique :</strong> Lance et arrête tout seul</li>
+                                    <li><strong>Professionnel :</strong> Fenêtre native sans bordures</li>
+                                    <li><strong>Intégré :</strong> Menu système, icône</li>
+                                    <li><strong>Simple :</strong> Une seule commande</li>
+                                    <li><strong>Propre :</strong> Fermeture automatique</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="component qt-app" style="margin-top: 15px;">
+                            <div class="component-title">
+                                ⚠️ Inconvénients
+                            </div>
+                            <div class="component-desc">
+                                <ul style="margin-left: 20px;">
+                                    <li>Nécessite compilation (1-2 min)</li>
+                                    <li>Dépendances Qt requises</li>
+                                    <li>~50-80 MB de mémoire</li>
+                                    <li>Démarrage : 2-3 secondes</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="component qt-app" style="margin-top: 15px;">
+                            <div class="component-title">
+                                🎯 Cas d'usage idéaux
+                            </div>
+                            <div class="component-desc">
+                                <ul style="margin-left: 20px;">
+                                    <li>Distribution à des utilisateurs finaux</li>
+                                    <li>Scripts d'installation système</li>
+                                    <li>Outils d'administration</li>
+                                    <li>Applications d'entreprise</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 style="color: #f093fb; margin-bottom: 15px;">🌐 Navigateur Web</h3>
+                        
+                        <div class="component browser">
+                            <div class="component-title">
+                                ✅ Avantages
+                            </div>
+                            <div class="component-desc">
+                                <ul style="margin-left: 20px;">
+                                    <li><strong>Rapide :</strong> Aucune compilation</li>
+                                    <li><strong>Léger :</strong> Seulement Python requis</li>
+                                    <li><strong>Débogable :</strong> DevTools (F12)</li>
+                                    <li><strong>Portable :</strong> Fonctionne partout</li>
+                                    <li><strong>Modifiable :</strong> Changements immédiats</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="component browser" style="margin-top: 15px;">
+                            <div class="component-title">
+                                ⚠️ Inconvénients
+                            </div>
+                            <div class="component-desc">
+                                <ul style="margin-left: 20px;">
+                                    <li>Démarrage manuel du serveur</li>
+                                    <li>Navigateur doit rester ouvert</li>
+                                    <li>Fermeture manuelle requise</li>
+                                    <li>Interface avec barre du navigateur</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="component browser" style="margin-top: 15px;">
+                            <div class="component-title">
+                                🎯 Cas d'usage idéaux
+                            </div>
+                            <div class="component-desc">
+                                <ul style="margin-left: 20px;">
+                                    <li>Développement et tests</li>
+                                    <li>Scripts personnels</li>
+                                    <li>Serveurs et conteneurs</li>
+                                    <li>Prototypage rapide</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="section-title" style="margin-top: 40px;">Architecture Technique Détaillée</h3>
+                
+                <div class="component server">
+                    <div class="component-title">
+                        🔧 Composants Communs (Identiques dans les 2 méthodes)
+                    </div>
+                    <div class="component-desc">
+                        <div class="flow-grid flow-grid-3" style="margin-top: 15px;">
+                            <div>
+                                <strong>dialog_server.py</strong>
+                                <ul style="margin-left: 20px; margin-top: 8px;">
+                                    <li>Flask (web server)</li>
+                                    <li>Flask-SocketIO</li>
+                                    <li>Socket TCP (port 5001)</li>
+                                    <li>Gestion des queues</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong>wdialog.py</strong>
+                                <ul style="margin-left: 20px; margin-top: 8px;">
+                                    <li>Argparse (CLI)</li>
+                                    <li>Socket client</li>
+                                    <li>JSON serialization</li>
+                                    <li>Exit codes</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <strong>Interface Web</strong>
+                                <ul style="margin-left: 20px; margin-top: 8px;">
+                                    <li>Bootstrap 5</li>
+                                    <li>jQuery</li>
+                                    <li>Socket.IO client</li>
+                                    <li>16 widgets</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flow-grid flow-grid-2" style="margin-top: 20px;">
+                    <div class="component qt-app">
+                        <div class="component-title">
+                            🖥️ Spécifique Qt
+                        </div>
+                        <div class="component-desc">
+                            <strong>Technologies :</strong>
+                            <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li>Qt6/Qt5 (C++17)</li>
+                                <li>QWebEngineView (Chromium)</li>
+                                <li>QProcess (gestion serveur)</li>
+                                <li>QNetworkAccessManager</li>
+                                <li>QTimer (surveillance)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="component browser">
+                        <div class="component-title">
+                            🌐 Spécifique Navigateur
+                        </div>
+                        <div class="component-desc">
+                            <strong>Compatible avec :</strong>
+                            <ul style="margin-left: 20px; margin-top: 8px;">
+                                <li>Chrome / Chromium</li>
+                                <li>Firefox</li>
+                                <li>Edge</li>
+                                <li>Safari (macOS)</li>
+                                <li>Tout navigateur moderne</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showMethod(method) {
+            // Cacher toutes les vues
+            document.querySelectorAll('.method-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            
+            // Désactiver tous les boutons
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Activer la vue et le bouton correspondants
+            if (method === 'qt') {
+                document.getElementById('qt-view').classList.add('active');
+                document.querySelectorAll('.toggle-btn')[0].classList.add('active');
+            } else if (method === 'browser') {
+                document.getElementById('browser-view').classList.add('active');
+                document.querySelectorAll('.toggle-btn')[1].classList.add('active');
+            } else if (method === 'comparison') {
+                document.getElementById('comparison-view').classList.add('active');
+                document.querySelectorAll('.toggle-btn')[2].classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
