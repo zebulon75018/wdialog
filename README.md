@@ -255,10 +255,6 @@ Contributions are welcome! Feel free to:
 *   Improve the documentation
     
 
-📜 License
-----------
-
-This project is free to use for personal and commercial projects.
 
 🎉 Credits
 ----------
