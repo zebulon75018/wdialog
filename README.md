@@ -1,3 +1,50 @@
+i# Dialog Web Interface
+
+Modern web interface to display dialog boxes from bash scripts, compatible with the `dialog` command specifications.  
+This project is a WIP.
+
+## 🎯 Features
+
+- ✅ Compatible with the `dialog` command syntax
+- 🎨 Modern, responsive web UI with Bootstrap
+- 🔌 Real-time communication via WebSocket
+- 📱 Modern, animated design
+- 🚀 Easy to integrate into existing bash scripts
+
+## 📋 Supported widget types
+
+- `--yesno`: Yes/No dialog
+- `--msgbox`: Message box
+- `--inputbox`: Text input
+- `--passwordbox`: Password input
+- `--textbox`: Text file display
+- `--menu`: Selection menu
+- `--checklist`: Checklist (multiple selection)
+- `--radiolist`: Radio list (single selection)
+- `--gauge`: Progress bar
+- `--infobox`: Temporary information
+- `--calendar`: Date picker
+- `--timebox`: Time picker
+- `--fselect`: **[NEW]** File/folder selection
+- `--inputmenu`: **[NEW]** Menu with rename capability
+- `--mixedform`: **[NEW]** Form with mixed fields (text/password/readonly)
+- `--mixedgauge`: **[NEW]** Progress bar with status list
+
+## 🛠️ Installation
+
+### Prerequisites
+
+- Python 3.7+
+- pip (Python package manager)
+
+### Installation steps
+
+1. **Clone or create the project structure:**
+
+```bash
+mkdir dialog-web
+cd dialog-web
+
 1.  **Install Python dependencies:**
     
 
