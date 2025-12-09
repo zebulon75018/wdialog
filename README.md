@@ -27,7 +27,7 @@ It could be really interesting to make script to configure a device with out scr
 - `--infobox`: Temporary information
 - `--calendar`: Date picker
 - `--timebox`: Time picker
-- `--fselect`: **[NEW]** File/folder selection
+- `--fselect`: **[NEW]** File/folder selection [ BUGGY ]
 - `--inputmenu`: **[NEW]** Menu with rename capability
 - `--mixedform`: **[NEW]** Form with mixed fields (text/password/readonly)
 - `--mixedgauge`: **[NEW]** Progress bar with status list
