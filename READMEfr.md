@@ -25,7 +25,7 @@ Interface web moderne pour afficher des boîtes de dialogue depuis des scripts b
 - `--infobox` : Information temporaire
 - `--calendar` : Sélection de date
 - `--timebox` : Sélection d'heure
-- `--fselect` : **[NOUVEAU]** Sélection de fichier/dossier
+- `--fselect` : **[NOUVEAU]** Sélection de fichier/dossier ( non fonctionnel )
 - `--inputmenu` : **[NOUVEAU]** Menu avec capacité de renommage
 - `--mixedform` : **[NOUVEAU]** Formulaire avec champs mixtes (texte/password/readonly)
 - `--mixedgauge` : **[NOUVEAU]** Barre de progression avec liste de statuts
