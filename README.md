@@ -1,5 +1,6 @@
 ![](https://github.com/zebulon75018/wdialog/blob/master/img/archiwdialog.jpg?raw=true)
 
+![](https://github.com/zebulon75018/wdialog/blob/master/img/wdialogen.png?raw=true)
 # Dialog Web Interface
 
 Modern web interface to display dialog boxes from bash scripts, compatible with the `dialog` command specifications.  
